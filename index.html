@@ -1,53 +1,142 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luke Morton | Senior Digital & ICT Specialist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: 'Courier New', Courier, monospace;
-            transition: background-color 0.5s;
+        :root {
+            --term-cyan: #00f2ff;
+            --term-dim: rgba(0, 242, 255, 0.1);
         }
-        h1 {
-            font-size: 48px;
-            cursor: pointer;
-            transition: transform 0.3s;
+        body { 
+            background-color: #04090a; 
+            color: var(--term-cyan); 
+            font-family: 'JetBrains Mono', monospace; 
+            overflow-x: hidden;
         }
-        h1:hover {
-            transform: scale(1.1);
+        /* CRT Scanline Effect */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 9999;
+            background-size: 100% 3px, 2px 100%;
+            pointer-events: none;
         }
-        .spin {
-            animation: spin 0.5s forwards;
+        .glow {
+            text-shadow: 0 0 12px rgba(0, 242, 255, 0.4);
         }
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
+        .glass { 
+            background: rgba(0, 242, 255, 0.02); 
+            border: 1px solid rgba(0, 242, 255, 0.15); 
+        }
+        .glass:hover {
+            background: rgba(0, 242, 255, 0.08);
+            border: 1px solid var(--term-cyan);
+            box-shadow: 0 0 20px var(--term-dim);
+        }
+        .cursor::after {
+            content: "█";
+            animation: blink 1.2s step-end infinite;
+            margin-left: 4px;
+        }
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        @keyframes flicker {
+            0% { opacity: 0.99; }
+            5% { opacity: 0.97; }
+            10% { opacity: 0.99; }
+            100% { opacity: 1; }
+        }
+        .crt-flicker {
+            animation: flicker 0.25s infinite;
         }
     </style>
-    <title>Welcome to lukemorton.ie</title>
 </head>
-<body>
-    <h1 onclick="spinText()">lukemorton.ie</h1>
-    <script>
-        function spinText() {
-            const heading = document.querySelector('h1');
-            heading.classList.add('spin');
-            setTimeout(() => {
-                heading.classList.remove('spin');
-            }, 500);
-            document.body.style.backgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16);
-        }
-    </script>
+<body class="antialiased crt-flicker selection:bg-cyan-500/30">
+
+    <div class="max-w-2xl mx-auto px-6 py-20">
+        <!-- Header -->
+        <header class="mb-16">
+            <h1 class="text-4xl font-bold tracking-tight mb-4 glow uppercase" style="color: var(--term-cyan);">Luke Morton</h1>
+            <p class="text-lg leading-relaxed" style="color: rgba(0, 242, 255, 0.6);">
+                > Senior Digital & ICT Specialist. Dublin.<br>
+                > Infrastructure, automation, and solution validation.<br>
+                > Previously Google, AWS, Axonista.<span class="cursor"></span>
+            </p>
+        </header>
+
+        <!-- Main Links -->
+        <section class="grid gap-4 mb-16">
+            <a href="https://github.com/LukeM94" target="_blank" rel="noopener" class="glass p-4 rounded-xl flex items-center justify-between transition-all group">
+                <div>
+                    <span class="block font-bold" style="color: var(--term-cyan);">01. GitHub</span>
+                    <span class="text-xs uppercase tracking-widest" style="color: rgba(0, 242, 255, 0.35);">Repositories & Open Source</span>
+                </div>
+                <span class="group-hover:translate-x-1 transition-transform" style="color: var(--term-cyan); opacity: 0.5;">-></span>
+            </a>
+
+            <a href="https://www.linkedin.com/in/luke-morton" target="_blank" rel="noopener" class="glass p-4 rounded-xl flex items-center justify-between transition-all group">
+                <div>
+                    <span class="block font-bold" style="color: var(--term-cyan);">02. LinkedIn</span>
+                    <span class="text-xs uppercase tracking-widest" style="color: rgba(0, 242, 255, 0.35);">Professional Network</span>
+                </div>
+                <span class="group-hover:translate-x-1 transition-transform" style="color: var(--term-cyan); opacity: 0.5;">-></span>
+            </a>
+
+            <a href="https://medium.com/@lukedmorton" target="_blank" rel="noopener" class="glass p-4 rounded-xl flex items-center justify-between transition-all group">
+                <div>
+                    <span class="block font-bold" style="color: var(--term-cyan);">03. Writing</span>
+                    <span class="text-xs uppercase tracking-widest" style="color: rgba(0, 242, 255, 0.35);">Articles on Medium</span>
+                </div>
+                <span class="group-hover:translate-x-1 transition-transform" style="color: var(--term-cyan); opacity: 0.5;">-></span>
+            </a>
+        </section>
+
+        <!-- Proof of Work -->
+        <section class="mb-16">
+            <h2 class="text-xs uppercase tracking-[0.2em] mb-8 pb-2" style="color: rgba(0, 242, 255, 0.4); border-bottom: 1px solid rgba(0, 242, 255, 0.15);">/ SELECTED_PROJECTS</h2>
+            <div class="space-y-10">
+                <div class="group">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-xs" style="color: var(--term-cyan);">●</span>
+                        <a href="https://github.com/LukeM94/tech-support-toolbox" target="_blank" rel="noopener" class="font-bold text-lg glow" style="color: var(--term-cyan);">tech-support-toolbox</a>
+                    </div>
+                    <p class="text-sm leading-relaxed ml-5" style="color: rgba(0, 242, 255, 0.5);">
+                        A collection of PowerShell and Python scripts designed to automate repetitive diagnostic tasks and system optimisations.
+                    </p>
+                </div>
+
+                <div class="group">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-xs" style="color: var(--term-cyan);">●</span>
+                        <a href="https://github.com/LukeM94/gym-tracker" target="_blank" rel="noopener" class="font-bold text-lg glow" style="color: var(--term-cyan);">gym-tracker</a>
+                    </div>
+                    <p class="text-sm leading-relaxed ml-5" style="color: rgba(0, 242, 255, 0.5);">
+                        A simple gym tracking app to replace your Google Sheets. Built with Angular, NestJS, MongoDB, and Docker.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer / Contact -->
+        <footer class="pt-8" style="border-top: 1px solid rgba(0, 242, 255, 0.1);">
+            <p class="text-xs mb-4 uppercase tracking-widest" style="color: rgba(0, 242, 255, 0.4);">Status: Available for collaboration</p>
+            <a href="mailto:hello@lukemorton.ie" class="inline-block glass px-6 py-3 rounded-lg transition-all text-sm glow" style="color: var(--term-cyan);">
+                CONTACT_ME
+            </a>
+        </footer>
+    </div>
+
 </body>
 </html>
