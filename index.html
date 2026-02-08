@@ -136,7 +136,152 @@
                 CONTACT_ME
             </a>
         </footer>
+
+        <!-- Interactive Console -->
+        <div id="console" class="mt-16 hidden" style="border-top: 1px solid rgba(0, 242, 255, 0.15);">
+            <div class="pt-6">
+                <p class="text-xs uppercase tracking-widest mb-4" style="color: rgba(0, 242, 255, 0.4);">/ INTERACTIVE_CONSOLE</p>
+                <div id="console-output" class="text-sm leading-relaxed mb-2" style="color: rgba(0, 242, 255, 0.6);"></div>
+                <div class="flex items-center text-sm">
+                    <span style="color: var(--term-cyan);">visitor@lukemorton:~$&nbsp;</span>
+                    <span id="console-input" style="color: var(--term-cyan);"></span>
+                    <span class="cursor"></span>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script>
+    (function() {
+        const consoleEl = document.getElementById('console');
+        const input = document.getElementById('console-input');
+        const output = document.getElementById('console-output');
+        let buffer = '';
+        let history = [];
+
+        const commands = {
+            help: function() {
+                return [
+                    'Available commands:',
+                    '',
+                    '  help       Show this message',
+                    '  whoami     About Luke',
+                    '  ls         List sections',
+                    '  cat skills Show tech stack',
+                    '  history    Career timeline',
+                    '  contact    Get in touch',
+                    '  clear      Clear console',
+                ];
+            },
+            whoami: function() {
+                return [
+                    'Luke Morton',
+                    'Senior Digital & ICT Specialist | Dublin',
+                    'ISTQB Certified | First Class Honours in Computing',
+                    'Currently studying MSc Software Engineering (Cloud Native)',
+                ];
+            },
+            ls: function() {
+                return [
+                    'drwxr-xr-x  github/',
+                    'drwxr-xr-x  linkedin/',
+                    'drwxr-xr-x  writing/',
+                    '-rw-r--r--  tech-support-toolbox',
+                    '-rw-r--r--  gym-tracker',
+                    '-rw-r--r--  contact.sh',
+                ];
+            },
+            'cat skills': function() {
+                return [
+                    'Languages:    Python, JavaScript, PowerShell, VBA',
+                    'Testing:      Postman, TestCafe, Zephyr, ISTQB',
+                    'Cloud:        AWS, GCP, Docker',
+                    'Platforms:    Linux, macOS, Windows, ChromeOS',
+                    'Tools:        Jira, Git, Google Workspace, Zendesk',
+                ];
+            },
+            history: function() {
+                return [
+                    '2017-2018  Field Service Engineer / IT Support',
+                    '2019-2020  IT Resident @ Google',
+                    '2020-2021  Data Centre Ops @ AWS',
+                    '2021-2024  Senior QA Engineer @ Axonista',
+                    '2024-now   Senior Digital & ICT Specialist',
+                ];
+            },
+            contact: function() {
+                return [
+                    'Email:     hello@lukemorton.ie',
+                    'GitHub:    github.com/LukeM94',
+                    'LinkedIn:  linkedin.com/in/luke-morton',
+                    'Medium:    medium.com/@lukedmorton',
+                ];
+            },
+            clear: function() {
+                output.innerHTML = '';
+                return null;
+            },
+        };
+
+        function writeLine(text, colour) {
+            const line = document.createElement('div');
+            line.textContent = text;
+            if (colour) line.style.color = colour;
+            output.appendChild(line);
+        }
+
+        function runCommand(cmd) {
+            cmd = cmd.trim().toLowerCase();
+
+            // Echo the command
+            writeLine('visitor@lukemorton:~$ ' + cmd, 'var(--term-cyan)');
+
+            if (cmd === '') return;
+
+            history.push(cmd);
+
+            const handler = commands[cmd];
+            if (handler) {
+                const result = handler();
+                if (result) {
+                    result.forEach(function(line) { writeLine(line); });
+                }
+            } else {
+                writeLine('bash: ' + cmd + ': command not found. Type "help" for available commands.', 'rgba(255, 100, 100, 0.7)');
+            }
+
+            // Add blank line after output
+            writeLine('');
+
+            // Scroll to bottom
+            consoleEl.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
+
+        document.addEventListener('keydown', function(e) {
+            // Ignore if user is typing in an actual input/textarea
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+            // Show console on first keystroke
+            if (consoleEl.classList.contains('hidden')) {
+                consoleEl.classList.remove('hidden');
+                consoleEl.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }
+
+            if (e.key === 'Enter') {
+                runCommand(buffer);
+                buffer = '';
+                input.textContent = '';
+            } else if (e.key === 'Backspace') {
+                e.preventDefault();
+                buffer = buffer.slice(0, -1);
+                input.textContent = buffer;
+            } else if (e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
+                buffer += e.key;
+                input.textContent = buffer;
+            }
+        });
+    })();
+    </script>
 
 </body>
 </html>
